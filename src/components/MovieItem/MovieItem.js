@@ -10,7 +10,7 @@ class MovieItem extends Component {
 
   handlePosterClick = () => {
     console.log(`${this.props.movie.title} clicked`);
-    this.props.dispatch({type: 'SET_MOVIE_ITEM', payload: this.props.movie})
+    this.props.dispatch({type: 'SET_SPECIFIC_MOVIE', payload: this.props.movie})
     this.props.history.push('/details')
   }
 

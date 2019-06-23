@@ -15,7 +15,8 @@ import axios from 'axios';
 // Create the rootSaga generator function
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchMovies);
-    // yield takeEvery('SET_MOVIE_ITEM', selectSpecificMovie);
+    yield takeEvery('SET_SPECIFIC_MOVIE', selectSpecificMovie);
+   
 }
 
 function* fetchMovies(action) {
@@ -28,17 +29,19 @@ function* fetchMovies(action) {
     }
 }
 
-// function* selectSpecificMovie(action) {
-//     try{
-//         const movieGenres = yield axios.get('/movies/details')
-//         console.log(movieGenres);
+function* selectSpecificMovie(action) {
+    try{
+        yield put({type: 'SET_MOVIE_ITEM', payload: action.payload})
+        const movieGenres = yield axios.get(`/movies/details?id=${action.payload.id}`)
+        console.log(movieGenres);
+        yield put({type: 'SET_TAGS', payload: movieGenres.data })
         
-//         // yield put({type: 'SET_MOVIE_ITEM', payload: movieGenres })
-//     }catch(error) {
-//         console.log('error selecting movie', error);
+        // yield put({type: 'SET_MOVIE_ITEM', payload: movieGenres })
+    }catch(error) {
+        console.log('error selecting movie', error);
         
-//     }
-// }
+    }
+}
 
 // Create sagaMiddleware
 const sagaMiddleware = createSagaMiddleware();

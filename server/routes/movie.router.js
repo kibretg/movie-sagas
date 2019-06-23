@@ -15,10 +15,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/details', (req, res) => {
+    console.log(req.query);
     pool.query(`SELECT "genres"."name", "movie_genres"."genre_id" FROM "genres" 
     JOIN "movie_genres" 
     ON "movie_genres"."genre_id"="genres"."id"
-    WHERE "movie_genres"."title_id"='1';`)
+    WHERE "movie_genres"."title_id"=$1;`, [req.query.id])
       .then((result) => { 
           res.send(result.rows); 
         })

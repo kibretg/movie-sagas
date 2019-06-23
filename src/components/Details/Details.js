@@ -25,6 +25,11 @@ class Details extends Component {
      <div>
      {this.props.reduxState.movieItemReducer.description}
      </div>
+     <ul>
+     {this.props.reduxState.genresReducer.map(genre => {
+        return <li key={genre.genres_id}>{genre.name}</li>
+     })}
+     </ul>
      </>
        
       
