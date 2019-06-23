@@ -15,6 +15,7 @@ import axios from 'axios';
 // Create the rootSaga generator function
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchMovies);
+    // yield takeEvery('SET_MOVIE_ITEM', selectSpecificMovie);
 }
 
 function* fetchMovies(action) {
@@ -27,11 +28,23 @@ function* fetchMovies(action) {
     }
 }
 
+// function* selectSpecificMovie(action) {
+//     try{
+//         const movieGenres = yield axios.get('/movies/details')
+//         console.log(movieGenres);
+        
+//         // yield put({type: 'SET_MOVIE_ITEM', payload: movieGenres })
+//     }catch(error) {
+//         console.log('error selecting movie', error);
+        
+//     }
+// }
+
 // Create sagaMiddleware
 const sagaMiddleware = createSagaMiddleware();
 
 // Used to store movies returned from the server
-const movies = (state = [], action) => {
+const moviesReducer = (state = [], action) => {
     switch (action.type) {
         case 'SET_MOVIES':
             return action.payload;
@@ -40,8 +53,19 @@ const movies = (state = [], action) => {
     }
 }
 
+
+const movieItemReducer = (state = 1, action) => {
+    switch (action.type) {
+        case 'SET_MOVIE_ITEM':
+            return action.payload;
+        default:
+            return state;
+    }  
+}
+
+
 // Used to store the movie genres
-const genres = (state = [], action) => {
+const genresReducer = (state = [], action) => {
     switch (action.type) {
         case 'SET_TAGS':
             return action.payload;
@@ -53,8 +77,9 @@ const genres = (state = [], action) => {
 // Create one store that all components can use
 const storeInstance = createStore(
     combineReducers({
-        movies,
-        genres,
+        moviesReducer,
+        genresReducer,
+        movieItemReducer,
     }),
     // Add sagaMiddleware to our store
     applyMiddleware(sagaMiddleware, logger),

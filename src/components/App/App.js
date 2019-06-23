@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import { HashRouter as Router, Route, Link } from 'react-router-dom';
 import './App.css';
+import MovieList from '../Home/Home'
+import Details from '../Details/Details';
 
 class App extends Component {
   // Renders the entire app on the DOM
   getMovies = () => {
     this.props.dispatch({type: 'FETCH_MOVIES'})
+  }
+
+  getTags = () => {
+    this.props.dispatch({type: 'SET_TAGS'})
   }
 
   componentDidMount() {
@@ -14,11 +21,16 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <pre>
-        {JSON.stringify(this.props.reduxState)}
-        </pre>
-      </div>
+      
+
+      <Router>
+        <div>
+        <Route path="/" exact component={MovieList}/>
+        <Route path="/details" exact component={Details}/>
+        </div>
+      </Router>
+
+      
     );
   }
 }

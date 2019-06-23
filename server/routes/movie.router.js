@@ -4,24 +4,31 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    const queryText = 'SELECT * FROM "movies"';
-    pool.query(queryText)
-    .then((result) => {res.send(result.rows); })
+    pool.query('SELECT * FROM "movies";')
+    .then((result) => {
+        res.send(result.rows); 
+    })
     .catch((error) => {
-        console.log('Error completeing SELECT query', error);
+        console.log('Error completeing SELECT movies query', error);
         res.sendStatus(500); 
     });
 });
 
-router.get('/details/:id', (req, res) => {
-    const queryText = 'SELECT * FROM "movies" WHERE id=$1';
-    pool.query(queryText, [req.params.id])
-      .then((result) => { res.send(result.rows); })
+router.get('/details', (req, res) => {
+    pool.query(`SELECT "genres"."name", "movie_genres"."genre_id" FROM "genres" 
+    JOIN "movie_genres" 
+    ON "movie_genres"."genre_id"="genres"."id"
+    WHERE "movie_genres"."title_id"='1';`)
+      .then((result) => { 
+          res.send(result.rows); 
+        })
       .catch((err) => {
-        console.log('Error completing SELECT plant query', err);
+        console.log('Error completing SELECT genres query', err);
         res.sendStatus(500);
       });
   });
+
+  
 
 router.post('/',(req, res) => {
     res.sendStatus(201);
