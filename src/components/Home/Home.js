@@ -4,6 +4,7 @@ import MovieItem from '../MovieItem/MovieItem';
 
 
 
+
 class Home extends Component {
   // Renders the entire app on the DOM
 
