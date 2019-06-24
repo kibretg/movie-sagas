@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import MovieItem from '../MovieItem/MovieItem';
+import {Link} from 'react-router-dom'
+import Edit from '../Edit/Edit'
 
 
 
@@ -15,6 +16,11 @@ class Details extends Component {
     return (
       
      <>
+     <button>
+         <Link to="/">Home</Link>
+         </button>
+     
+     
      <div>
      <h1>{this.props.reduxState.movieItemReducer.title}</h1>
      </div>
@@ -30,6 +36,10 @@ class Details extends Component {
         return <li key={genre.genres_id}>{genre.name}</li>
      })}
      </ul>
+     <button>
+         <Link to="/edit">Edit</Link>
+         </button>
+     
      </>
        
       
