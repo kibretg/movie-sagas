@@ -16,7 +16,7 @@ import axios from 'axios';
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchMovies);
     yield takeEvery('SET_SPECIFIC_MOVIE', selectSpecificMovie);
-    
+    yield takeEvery('EDIT_MOVIE', editMovie);
    
 }
 
@@ -44,6 +44,16 @@ function* selectSpecificMovie(action) {
     }
 }
 
+function* editMovie(action) {
+    try{
+       yield axios.put('/movies/edit', action.payload);
+       yield put({type:'FETCH_MOVIES'})
+    }catch(error) {
+        console.log('error updating movie', error);
+        
+    }
+}
+
 
 // Create sagaMiddleware
 const sagaMiddleware = createSagaMiddleware();
@@ -59,7 +69,7 @@ const moviesReducer = (state = [], action) => {
 }
 
 
-const movieItemReducer = (state = 1, action) => {
+const movieItemReducer = (state = {}, action) => {
     switch (action.type) {
         case 'SET_MOVIE_ITEM':
             return action.payload;
@@ -67,6 +77,7 @@ const movieItemReducer = (state = 1, action) => {
             return state;
     }  
 }
+
 
 
 // Used to store the movie genres
@@ -94,7 +105,7 @@ const storeInstance = createStore(
         moviesReducer,
         genresReducer,
         movieItemReducer,
-       
+        editReducer,
     }),
     // Add sagaMiddleware to our store
     applyMiddleware(sagaMiddleware, logger),

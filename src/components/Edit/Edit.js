@@ -34,7 +34,7 @@ handleCancelEdits = () => {
 }
 
 saveNewEdits = () => {
-    this.props.dispatch({type: 'EDIT_MOVIE', payload: this.state});
+    this.props.dispatch({type: 'EDIT_MOVIE', payload:{...this.state, id: this.props.reduxState.movieItemReducer.id}})
     this.props.history.push('/');
 }
 
