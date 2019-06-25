@@ -43,7 +43,7 @@ VALUES
 ('Space-Opera'),
 ('Superhero');
 
-CREATE TABLE "movies_genres" (
+CREATE TABLE "movie_genres" (
   "id" SERIAL PRIMARY KEY,
   "title_id" INT REFERENCES "movies"  NOT NULL,
   "genre_id"  INT REFERENCES "genres" NOT NULL
